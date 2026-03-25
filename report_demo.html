@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetShadow Report — demo_capture.pcap</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 0; background: #1a1a2e; color: #e0e0e0; }
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+h1 { color: #00d2ff; margin-bottom: 4px; }
+.meta { color: #888; font-size: 0.9em; margin-bottom: 24px; }
+.summary-box { background: #16213e; border-left: 4px solid #00d2ff; padding: 16px 20px;
+               border-radius: 4px; margin-bottom: 32px; line-height: 1.6; }
+table { width: 100%; border-collapse: collapse; background: #16213e; border-radius: 8px;
+        overflow: hidden; font-size: 0.9em; }
+th { background: #0f3460; padding: 12px 10px; text-align: left; color: #00d2ff;
+     cursor: pointer; user-select: none; white-space: nowrap; }
+th:hover { background: #1a4a80; }
+td { padding: 10px; border-bottom: 1px solid #2a2a4a; vertical-align: top; word-break: break-word; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.04); }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-weight: bold;
+         font-size: 0.82em; color: #fff; white-space: nowrap; }
+.dist { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.dist-item { background: #16213e; border-radius: 8px; padding: 16px 24px; text-align: center;
+             border-top: 4px solid; min-width: 110px; }
+.dist-item .count { font-size: 2em; font-weight: bold; }
+.dist-item .label { font-size: 0.85em; color: #aaa; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>&#127941; NetShadow Threat Analysis</h1>
+  <div class="meta">
+    File: <strong>demo_capture.pcap</strong> &nbsp;|&nbsp;
+    Generated: <strong>2026-03-25 12:29:59</strong> &nbsp;|&nbsp;
+    External endpoints: <strong>13</strong>
+  </div>
+
+  <h2 style="color:#00d2ff">Executive Summary</h2>
+  <div class="summary-box">The capture contained 13 unique external endpoints. Distribution: 2 Critical, 2 High, 2 Medium, 3 Low, 4 Clean. CRITICAL threat(s) detected — immediate investigation recommended for: 197.231.221.211, 80.66.88.203. Two additional high-risk IPs were identified exhibiting Tor exit node and bulletproof hosting characteristics. The majority of clean traffic was attributed to well-known CDN and DNS infrastructure (Cloudflare, Google, GitHub, Microsoft).</div>
+
+  <h2 style="color:#00d2ff">Endpoint Risk Table</h2>
+  <table id="risktable" data-sort-col="" data-sort-dir="">
+    <thead><tr><th onclick="sortTable(0)">IP &#8597;</th><th onclick="sortTable(1)">Hostname &#8597;</th><th onclick="sortTable(2)">Country &#8597;</th><th onclick="sortTable(3)">Org &#8597;</th><th onclick="sortTable(4)">VT Detections &#8597;</th><th onclick="sortTable(5)">Risk Level &#8597;</th><th onclick="sortTable(6)">Reasoning &#8597;</th></tr></thead>
+    <tbody><tr><td><code>1.1.1.1</code></td><td>one.one.one.one</td><td>AU</td><td>AS13335 Cloudflare, Inc.</td><td style='text-align:center'>0/94</td><td><span class="badge" style="background:#27ae60">Clean</span></td><td>No detections across 94 VirusTotal engines and no other risk indicators.</td></tr>
+<tr><td><code>8.8.8.8</code></td><td>dns.google</td><td>US</td><td>AS15169 Google LLC</td><td style='text-align:center'>0/94</td><td><span class="badge" style="background:#27ae60">Clean</span></td><td>No detections across 94 VirusTotal engines and no other risk indicators.</td></tr>
+<tr><td><code>13.107.42.14</code></td><td>Unknown</td><td>US</td><td>AS8075 Microsoft Corporation</td><td style='text-align:center'>0/94</td><td><span class="badge" style="background:#27ae60">Clean</span></td><td>No detections across 94 VirusTotal engines and no other risk indicators.</td></tr>
+<tr><td><code>185.199.108.153</code></td><td>cdn-185-199-108-153.github.com</td><td>US</td><td>AS36459 GitHub, Inc.</td><td style='text-align:center'>0/94</td><td><span class="badge" style="background:#27ae60">Clean</span></td><td>No detections across 94 VirusTotal engines and no other risk indicators.</td></tr>
+<tr><td><code>104.21.45.12</code></td><td>Unknown</td><td>US</td><td>AS13335 Cloudflare Hosting</td><td style='text-align:center'>0/91</td><td><span class="badge" style="background:#2980b9">Low</span></td><td>IP belongs to an org associated with hosting/anonymization services (AS13335 Cloudflare Hosting).</td></tr>
+<tr><td><code>45.33.32.156</code></td><td>li982-156.members.linode.com</td><td>US</td><td>AS63949 Akamai Connected Cloud</td><td style='text-align:center'>0/89</td><td><span class="badge" style="background:#2980b9">Low</span></td><td>IP belongs to an org associated with hosting/anonymization services (VPS provider).</td></tr>
+<tr><td><code>23.227.38.65</code></td><td>Unknown</td><td>US</td><td>AS54113 Fastly CDN</td><td style='text-align:center'>0/86</td><td><span class="badge" style="background:#2980b9">Low</span></td><td>No VT data available; IP belongs to CDN hosting infrastructure — treat with caution.</td></tr>
+<tr><td><code>114.119.130.45</code></td><td>Unknown</td><td>CN</td><td>AS4134 CHINANET-BACKBONE</td><td style='text-align:center'>0/88</td><td><span class="badge" style="background:#f1c40f">Medium</span></td><td>No VT data available and originates from high-risk country (CN); VirusTotal reputation score is slightly negative (-8).</td></tr>
+<tr><td><code>91.108.56.181</code></td><td>Unknown</td><td>NL</td><td>AS62041 Telegram Messenger Inc</td><td style='text-align:center'>1/93</td><td><span class="badge" style="background:#f1c40f">Medium</span></td><td>Flagged by 1/93 VirusTotal engine; reputation score slightly negative (-5).</td></tr>
+<tr><td><code>185.220.101.47</code></td><td>tor-exit-relay.example.net</td><td>DE</td><td>AS208323 Tor Exit Node Hosting</td><td style='text-align:center'>6/92</td><td><span class="badge" style="background:#e67e22">High</span></td><td>Detected by 6/92 VirusTotal engines; associated with Tor exit node infrastructure.</td></tr>
+<tr><td><code>46.161.27.151</code></td><td>Unknown</td><td>RU</td><td>AS57043 Hostkey BV</td><td style='text-align:center'>7/91</td><td><span class="badge" style="background:#e67e22">High</span></td><td>Detected by 7/91 VirusTotal engines; originates from high-risk country (RU) and bulletproof hosting provider.</td></tr>
+<tr><td><code>197.231.221.211</code></td><td>Unknown</td><td>LU</td><td>AS37560 UUNET Luxembourg</td><td style='text-align:center'>14/93</td><td><span class="badge" style="background:#c0392b">Critical</span></td><td>Flagged as malicious by 14/93 VirusTotal engines; severely negative reputation (-85); known C2 beacon traffic pattern.</td></tr>
+<tr><td><code>80.66.88.203</code></td><td>Unknown</td><td>RU</td><td>AS209641 Proton66 OOO</td><td style='text-align:center'>19/94</td><td><span class="badge" style="background:#c0392b">Critical</span></td><td>Flagged as malicious by 19/94 VirusTotal engines; bulletproof hosting provider with severe reputation score (-91).</td></tr></tbody>
+  </table>
+
+  <h2 style="color:#00d2ff">Risk Distribution</h2>
+  <div class="dist"><div class="dist-item" style="border-top-color:#c0392b"><div class="count" style="color:#c0392b">2</div><div class="label">Critical</div></div>
+<div class="dist-item" style="border-top-color:#e67e22"><div class="count" style="color:#e67e22">2</div><div class="label">High</div></div>
+<div class="dist-item" style="border-top-color:#f1c40f"><div class="count" style="color:#f1c40f">2</div><div class="label">Medium</div></div>
+<div class="dist-item" style="border-top-color:#2980b9"><div class="count" style="color:#2980b9">3</div><div class="label">Low</div></div>
+<div class="dist-item" style="border-top-color:#27ae60"><div class="count" style="color:#27ae60">4</div><div class="label">Clean</div></div></div>
+</div>
+<script>
+function sortTable(col) {
+  const tbl = document.getElementById('risktable');
+  const rows = Array.from(tbl.querySelectorAll('tbody tr'));
+  const asc = tbl.dataset.sortCol === String(col) && tbl.dataset.sortDir === 'asc';
+  rows.sort((a, b) => {
+    const av = a.cells[col].textContent.trim();
+    const bv = b.cells[col].textContent.trim();
+    return asc ? bv.localeCompare(av) : av.localeCompare(bv);
+  });
+  tbl.querySelector('tbody').append(...rows);
+  tbl.dataset.sortCol = col;
+  tbl.dataset.sortDir = asc ? 'desc' : 'asc';
+}
+</script>
+</body>
+</html>
