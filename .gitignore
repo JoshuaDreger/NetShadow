@@ -1,6 +1,7 @@
 # Custom stuff
 pcap/*.pcap
 report.html
+private.md
 # report_demo.html is intentionally tracked (demo data only)
 
 # Byte-compiled / optimized / DLL files
