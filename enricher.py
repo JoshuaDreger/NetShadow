@@ -2,6 +2,8 @@ import os
 import time
 import requests
 
+import cache as _cache
+
 IPINFO_BASE = "https://ipinfo.io"
 VT_BASE = "https://www.virustotal.com/api/v3/ip_addresses"
 
@@ -21,25 +23,37 @@ def _vt_rate_limit():
 
 
 def get_ipinfo(ip: str) -> dict:
+    cached = _cache.get(ip)
+    if cached and "country" in cached and "org" in cached:
+        return {k: cached[k] for k in ("country", "org", "hostname") if k in cached}
+
     token = os.getenv("IPINFO_TOKEN", "")
     try:
         params = {"token": token} if token else {}
         resp = requests.get(f"{IPINFO_BASE}/{ip}/json", params=params, timeout=10)
         resp.raise_for_status()
         data = resp.json()
-        return {
+        result = {
             "country": data.get("country", "Unknown"),
             "org": data.get("org", "Unknown"),
             "hostname": data.get("hostname", "Unknown"),
         }
     except Exception:
-        return {"country": "Unknown", "org": "Unknown", "hostname": "Unknown"}
+        result = {"country": "Unknown", "org": "Unknown", "hostname": "Unknown"}
+
+    _cache.put(ip, **result)
+    return result
 
 
 def get_virustotal(ip: str) -> dict:
+    cached = _cache.get(ip)
+    if cached and "malicious" in cached and "total" in cached:
+        return {k: cached[k] for k in ("malicious", "total", "reputation") if k in cached}
+
     api_key = os.getenv("VIRUSTOTAL_API_KEY", "")
     if not api_key:
         return {"malicious": 0, "total": 0, "reputation": 0, "error": "no_key"}
+
     _vt_rate_limit()
     try:
         headers = {"x-apikey": api_key}
@@ -47,13 +61,16 @@ def get_virustotal(ip: str) -> dict:
         resp.raise_for_status()
         attrs = resp.json().get("data", {}).get("attributes", {})
         stats = attrs.get("last_analysis_stats", {})
-        return {
+        result = {
             "malicious": stats.get("malicious", 0),
             "total": sum(stats.values()) if stats else 0,
             "reputation": attrs.get("reputation", 0),
         }
     except Exception:
-        return {"malicious": 0, "total": 0, "reputation": 0, "error": "api_error"}
+        result = {"malicious": 0, "total": 0, "reputation": 0, "error": "api_error"}
+
+    _cache.put(ip, **result)
+    return result
 
 
 def enrich(ips: list[str]) -> list[dict]:
@@ -62,4 +79,5 @@ def enrich(ips: list[str]) -> list[dict]:
         info = get_ipinfo(ip)
         vt = get_virustotal(ip)
         results.append({"ip": ip, **info, **vt})
+    _cache.flush()
     return results

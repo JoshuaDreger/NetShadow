@@ -76,20 +76,47 @@ python netshadow.py capture --list-interfaces
 
 ## Live Dashboard
 
-The dashboard sniffs traffic in real-time and shows:
+The dashboard sniffs traffic in real-time and updates every 500ms. Reverse DNS and ipinfo enrichment runs in a background thread and fills in as results arrive.
+
+### Columns
 
 | Column     | Description                                          |
 |------------|------------------------------------------------------|
 | Dir        | `→` outgoing · `←` incoming · `↔` both              |
 | Remote IP  | External IP address                                  |
-| Hostname   | Reverse DNS (resolved locally)                       |
-| CC         | Country code (via ipinfo.io)                         |
-| Org / ASN  | Organization / ASN (via ipinfo.io)                   |
+| Hostname   | Reverse DNS (resolved locally, no API needed)        |
+| CC         | Country code (via ipinfo.io if token is set)         |
+| Org / ASN  | Organization / ASN (via ipinfo.io if token is set)   |
 | ↑ / ↓ Pkts | Packets sent / received                              |
 | ↑ / ↓ Sent | Bytes sent / received                                |
 | Protocols  | Top protocol/port combos seen (e.g. TCP/443, UDP/53) |
 
-Incoming-only connections (nothing sent out, something came in) are highlighted in **yellow** — these are the ones to scrutinize for botnet C2 beaconing.
+Rows are sorted by total bytes. Incoming-only connections are highlighted **yellow** — nothing was sent out but data came in, which is the main signal for unexpected C2 beaconing.
+
+### Keyboard Shortcuts
+
+| Key      | Action                                               |
+|----------|------------------------------------------------------|
+| `i`      | Toggle interface picker overlay                      |
+| `1`–`9`  | Switch to interface by number (picker must be open)  |
+| `r`      | Reset all stats for the current interface            |
+| `q`      | Quit                                                 |
+| `Ctrl+C` | Quit                                                 |
+
+All shortcuts are shown in the status bar at the bottom of the window at all times.
+
+### Interface Switcher
+
+Press `i` to open the interface picker. It lists every available network interface with its IP address and marks the currently active one. Press a number to switch — the sniffer restarts and stats reset instantly.
+
+```
+╭─ Switch Interface ─────────────────────────╮
+│  [1]  lo        127.0.0.1                  │
+│  [2]  enp2s0    —                          │
+│  [3]  wlp4s0    192.168.1.5   ◀ active     │
+│  [4]  docker0   172.17.0.1                 │
+╰─  press number to switch  │  [i] to close  ╯
+```
 
 ## API Keys
 
