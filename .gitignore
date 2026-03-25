@@ -1,3 +1,8 @@
+# Custom stuff
+pcap/*.pcap
+report.html
+# report_demo.html is intentionally tracked (demo data only)
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
